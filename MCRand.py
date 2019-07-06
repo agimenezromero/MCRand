@@ -1,5 +1,20 @@
+"""
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
 import numpy as np
-from random import choice
+from random import choices
 
 
 class RandGen(object):
@@ -9,28 +24,34 @@ class RandGen(object):
 		
 	@classmethod
 	def distribution(cls, f, x0, xf, *args):
+		# maximum number of samples returned
+		max_sample = 10**4
+		# maximum number of samples used at each iteration of the MC
+		max_sample_per_iter = 10**4
 
 		#Get the maximum of the f probability function
 
 		x = f(np.linspace(x0, xf, 1000), *args)
 
 		maximum = np.amax(x)
+
+		new_randoms = np.empty(max_sample, dtype=float)
+
 		n = 0
+		while n < max_sample:
 
-		new_randoms = []
+			random_numbers = np.random.uniform(x0, xf, max_sample_per_iter)
+			dices = np.random.uniform(0, maximum, max_sample_per_iter)
 
-		while n < 10**4:
+			accept = random_numbers[f(random_numbers, *args) > dices]
+			accepted = len(accept)
 
-			#print(round(n/(10**4) * 100, 2), '%')
-
-			random_number = np.random.uniform(x0, xf)
-			dice = np.random.uniform(0, maximum)
-
-			if f(random_number, *args) > dice:
-
-				new_randoms.append(random_number)
-
-				n += 1
+			if n + accepted > max_sample:
+				new_randoms[n:max_sample] = accept[:max_sample - n]
+				n = max_sample
+			else:
+				new_randoms[n:n+accepted] = accept[:]
+				n += accepted
 
 		return new_randoms
 
@@ -39,38 +60,12 @@ class RandGen(object):
 		
 		numbers = cls.distribution(f, x0, xf, *args)
 
-		if isinstance(size, int):
-						
-			current_sample = []
-
-			for i in range(size):
-				current_sample.append(choice(numbers))
-
-			return current_sample
+		if isinstance(size, int):	
+			return choices(numbers, k = size)
 
 		elif isinstance(size, tuple):
-			
-			samples = []
-
-			for i in range(np.prod(size[0: len(size)-1])):
-
-				current_sample = []
-
-				for j in range(size[-1]):
-
-					current_sample.append(choice(numbers))
-
-				samples.append(current_sample)
-
-			samples = np.reshape(samples, size)
-			
-			return samples
+			samples = choices(numbers, np.prod(size))
+			return np.reshape(samples, size)
 
 		else:
 			raise NameError('Invalid size argument!')
-
-
-
-	
-	
-
