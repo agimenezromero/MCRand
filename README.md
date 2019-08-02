@@ -137,8 +137,46 @@ plt.plot(x, maxwell_boltzmann(x, sigma), color='r', label=r'Maxwell-Boltzmann PD
 
 ## Symmetric Maxwell-Boltzmann distribution
 
+```python
+def symmetric_maxwell_boltzmann(x, sigma):
+	return 0.5*(np.sqrt(2/np.pi))*(x**2*np.exp(-(x**2)/(2*sigma**2))) / (sigma**3)
+	
+x0 = -10
+xf = 10
+sigma = 2
+N = 10**5
+
+rand = rg.sample(symmetric_maxwell_boltzmann, x0, xf, N, sigma)
+
+plt.hist(rand, bins=40, density=True, color=(0,1,0,0.5), label='MCRand sample')
+plt.plot(x, symmetric_maxwell_boltzmann(x, sigma), color='r', label=r'Maxwell-Boltzmann PDF $\sigma=%.2f$' % sigma)
+```
+
 ![Symmetric Maxwell-Boltzmann distribution with Numpy and MCRand](test_figures/Symmetric_MB_dist.png)
 
 ## Modified Rayleigh distribution
+
+Finally we consider a invented probability distribution, given by the Rayleigh distribution multiplied by `x`. In some way we making a symmetric Rayleigh distribution. Then, this new distribution must be normalized, so the following equation must be acomplished:
+
+![equation](https://latex.codecogs.com/gif.latex?C%5Ccdot%5Cint_%7B-%5Cinfty%7D%5E%7B%5Cinfty%7D%5Cfrac%7Bx%5E2%5Cexp%28-%5Cfrac%7Bx%5E2%7D%7B2%5Csigma%5E2%7D%29%7D%7B%5Csigma%5E2%7D%3D1)
+
+By nummeric integration it turns out that the normalization constant must be `C=1/2.506628`. Then we get the probability density function for this distribution.
+
+Therefore, MCRand can be used to generate random numbers distributed following this distribution as follows
+
+```python
+def invented(x, sigma):
+	return (x**2*np.exp(-(x**2)/(2*sigma**2))) / (2.506628*sigma**2)
+
+x0 = -4
+xf = 4
+sigma = 1
+N = 10**5
+
+rand = rg.sample(invented, x0, xf, N, sigma)
+
+plt.hist(rand, bins=40, density=True, color=(0,1,0,0.5), label='MCRand sample')
+plt.plot(x, invented(x, sigma), color='r', label=r'Modified Rayleigh PDF $\sigma=%.2f$' % sigma)
+```
 
 ![Modified Rayleigh distribution with Numpy and MCRand](test_figures/Modified_Rayleigh_dist.png)
