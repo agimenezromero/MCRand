@@ -22,14 +22,13 @@ class RandGen(object):
 		pass
 		
 	@classmethod
-	def distribution(cls, f, x0, xf, sample_size, *args):
+	def distribution(cls, f, x0, xf, *args):
 		# maximum number of samples returned
-		#max_sample = 10**4
-		max_sample = sample_size
+
+		max_sample = 10**5
 		
 		# maximum number of samples used at each iteration of the MC
-		#max_sample_per_iter = 10**4
-		max_sample_per_iter = sample_size
+		max_sample_per_iter = max_sample
 
 		#Get the maximum of the f probability function
 
@@ -59,10 +58,8 @@ class RandGen(object):
 
 	@classmethod
 	def sample(cls, f, x0, xf, size, *args):
-
-		dist_size = size * 10
 		
-		numbers = cls.distribution(f, x0, xf, dist_size, *args)
+		numbers = cls.distribution(f, x0, xf, *args)
 
 		if isinstance(size, int):	
 			return choices(numbers, k = size)
