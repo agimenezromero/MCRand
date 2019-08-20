@@ -44,7 +44,7 @@ def gaussian_test():
 
 	x0 = -5
 	xf = 5
-	N = 1000
+	N = 50000
 	sigma = 1
 	mu = 0
 
@@ -54,7 +54,8 @@ def gaussian_test():
 	numpy_rand = np.random.normal(mu, sigma, N)
 	tf = current_milli_time()
 
-	print('Numpy gaussian random generator mean: ', np.mean(numpy_rand))
+	print('NumPy gaussian random generator mean: ', np.mean(numpy_rand))
+	print('NumPy std error:', np.std(numpy_rand)/np.sqrt(N) * 100, '%')
 	print('Elapsed time: %.4f ms' % (tf-t0, ))
 
 
@@ -63,6 +64,7 @@ def gaussian_test():
 	tf = current_milli_time()
 
 	print('\nMC gaussian random generator mean: ', np.mean(rand))
+	print('MCRand std error:', np.std(rand)/np.sqrt(N) * 100, '%')
 	print('Elapsed time: %.4f ms' % (tf-t0, ))
 
 	x = np.linspace(x0, xf, N)
@@ -100,6 +102,7 @@ def exponential_test():
 	tf = current_milli_time()
 
 	print('Numpy exponential random generator mean: ', np.mean(numpy_rand))
+	print('NumPy std error:', np.std(numpy_rand)/np.sqrt(N) * 100, '%')
 	print('Elapsed time: %.4f ms' % (tf-t0, ))
 	
 
@@ -108,6 +111,7 @@ def exponential_test():
 	tf = current_milli_time()
 
 	print('\nMC exponential random generator mean: ', np.mean(rand))
+	print('MCRand std error:', np.std(rand)/np.sqrt(N) * 100, '%')
 	print('Elapsed time: %.4f ms' % (tf-t0, ))
 
 	x = np.linspace(x0, xf, N)
@@ -143,6 +147,7 @@ def cauchy_test():
 	tf = current_milli_time()
 
 	print('NumPy Cauchy random generator mean: ', np.mean(numpy_cauchy))
+	print('NumPy std error:', np.std(numpy_cauchy)/np.sqrt(N) * 100, '%')
 	print('Elapsed time: %.4f ms' % (tf-t0, ))
 
 
@@ -151,6 +156,7 @@ def cauchy_test():
 	tf = current_milli_time()
 
 	print('\nMC Cauchy random generator mean: ', np.mean(rand))
+	print('MCRand std error:', np.std(rand)/np.sqrt(N) * 100, '%')
 	print('Elapsed time: %.4f ms' % (tf-t0, ))
 
 	x = np.linspace(x0, xf, N)
@@ -188,6 +194,7 @@ def rayleigh_test():
 	tf = current_milli_time()
 
 	print('Numpy rayleigh random generator mean: ', np.mean(numpy_rand))
+	print('NumPy std error:', np.std(numpy_rand)/np.sqrt(N) * 100, '%')
 	print('Elapsed time: %.4f ms' % (tf-t0, ))
 	
 
@@ -196,6 +203,7 @@ def rayleigh_test():
 	tf = current_milli_time()
 
 	print('\nMC rayleigh random generator mean: ', np.mean(rand))
+	print('MCRand std error:', np.std(rand)/np.sqrt(N) * 100, '%')
 	print('Elapsed time: %.4f ms' % (tf-t0, ))
 
 	x = np.linspace(x0, xf, N)
@@ -309,9 +317,9 @@ def invented_test():
 	plt.legend()
 	plt.show()
 
-#gaussian_test()
-#exponential_test()
-#cauchy_test()
+gaussian_test()
+exponential_test()
+cauchy_test()
 rayleigh_test()
 #maxwell_boltzmann_test()
 #symmetric_maxwell_boltzmann_test()
