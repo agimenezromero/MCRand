@@ -7,7 +7,6 @@ import time
 import scipy.stats as sp_stats
 from MCRand import RandGen as rg
 
-
 def gaussian(x, mu, sigma):
 	return (1/(np.sqrt(2*np.pi*sigma**2))) * np.exp(-(x-mu)**2/(2*sigma**2))
 
@@ -30,6 +29,7 @@ def invented(x, sigma):
 	return (x**2*np.exp(-(x**2)/(2*sigma**2))) / (2.506628*sigma**2)
 
 current_milli_time = lambda: time.time() * 1000
+
 
 #####################################################################
 #																	#
@@ -317,10 +317,17 @@ def invented_test():
 	plt.legend()
 	plt.show()
 
+
+#####################################################################
+#																	#
+#						ACTIVATE FUNCTIONS							#
+#																	#
+#####################################################################
+
 gaussian_test()
-exponential_test()
-cauchy_test()
-rayleigh_test()
+#exponential_test()
+#cauchy_test()
+#rayleigh_test()
 #maxwell_boltzmann_test()
 #symmetric_maxwell_boltzmann_test()
 #invented_test()
