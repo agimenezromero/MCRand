@@ -1,7 +1,7 @@
 # MCRand
-MCRand is a random number generator library based on Monte Carlo methods.
+MCRand is a library of Monte Carlo methods. Multidimensional integration, non-uniform random number generation, etc.
 
-# Examples
+# Random Number Generator
 In the [MCRand_tests](/MCRand_tests.py) you can find a comparison between MCRand and Numpy for different proability distributions. Moreover, we use the program to generate random samples drawn from non-standard distributions. Anyway, we show here a quick guide to use MCRand library to generate the outputs of [MCRand_tests](/MCRand_tests.py).
 
 To use the MCRand library to generate random numbers we first need to import the random generator (RandGen). This step can be done in the following way
@@ -180,3 +180,15 @@ plt.plot(x, invented(x, sigma), color='r', label=r'Modified Rayleigh PDF $\sigma
 ```
 
 ![Modified Rayleigh distribution with Numpy and MCRand](test_figures/Modified_Rayleigh_dist.png)
+
+# Multidimensional Integration
+
+To use the MCRand library to perform multidimensional integrals we first need to import the Integrate module. This step can be done in the following way
+
+```python
+from MCRand import Integrate as integrate
+```
+
+Then, we must define the function to integrate in an NumPy ndarray supported way, so it must be defined generally. For instance let's imagine we want so solve the following integral:
+
+![equation](https://latex.codecogs.com/gif.latex?%5Csmall%20%5Cint_0%5E2dx%5Cint_0%5E3dy%20%5C%20x%5E2&plus;y%5E2%3D%5Cint_0%5E2dx%5Byx%5E2%20&plus;%20y%5E3/3%5D_0%5E3%3D%5Cint_0%5E2dx%5C%2C3x%5E2&plus;9%3D%5Bx%5E3&plus;9x%5D_0%5E2%3D26)
