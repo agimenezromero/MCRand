@@ -192,3 +192,30 @@ from MCRand import Integrate as integrate
 Then, we must define the function to integrate in an NumPy ndarray supported way, so it must be defined generally. For instance let's imagine we want so solve the following integral:
 
 ![equation](https://latex.codecogs.com/gif.latex?%5Csmall%20%5Cint_0%5E2dx%5Cint_0%5E3dy%20%5C%20x%5E2&plus;y%5E2%3D%5Cint_0%5E2dx%5Byx%5E2%20&plus;%20y%5E3/3%5D_0%5E3%3D%5Cint_0%5E2dx%5C%2C3x%5E2&plus;9%3D%5Bx%5E3&plus;9x%5D_0%5E2%3D26)
+
+Then we should define the function as
+
+```python
+
+def func(x):
+	return np.sum(np.power(x, 2))
+```
+
+so each element of the x array will represent a variable.
+
+Finally, to get the result with  its error we can run the following code
+
+```python
+x0 = [0, 0]
+xf = [2, 3]
+N = 10**6
+
+result = integrate.UniformSampling(func, x0, xf, N)
+
+print(result)
+```
+The result is given in the following format
+
+```python
+(25.99767534344232, 0.02023068196284685)
+```
