@@ -70,3 +70,40 @@ class RandGen(object):
 
 		else:
 			raise NameError('Invalid size argument!')
+
+class Integrate(object):
+	"""docstring for HitMiss"""
+	def __init__(self):
+		pass
+
+	@classmethod
+	def UniformSampling(cls, f, x0, xf, N, *args):
+
+		if not isinstance(x0, (list, np.ndarray)):
+			raise NameError('x0 must be a list or numpy.ndarray of the initial points!')
+
+		if not isinstance(xf, (list, np.ndarray)):
+			raise NameError('x0 must be a list or numpy.ndarray of the final points!')
+
+		if len(x0) != len(xf):
+			raise ValueError('x0 and xf must have the same length!')
+
+		x0 = np.array(x0)
+		xf = np.array(xf)
+
+		D = len(x0)
+
+		rands = [np.random.uniform(x0[i], xf[i], N) for i in range(len(x0))]
+
+		random_numbers_x = np.reshape(rands, (N,D))
+
+		weight = np.prod(xf - x0)
+
+		ys = np.array([f(x, *args) for x in random_numbers_x]) * weight
+
+		integral = np.mean(ys)
+
+		error = np.sqrt(np.var(ys)) / np.sqrt(N)
+
+		return (integral, error)
+		
